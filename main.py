@@ -19,6 +19,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @app.get("/login/google")
 async def login_google():
+    GOOGLE_CLIENT_ID=os.environ["GOOGLE_CLIENT_ID"]
+    GOOGLE_REDIRECT_URI=os.environ["GOOGLE_REDIRECT_URI"]
     return {
         "url": f"https://accounts.google.com/o/oauth2/auth?response_type=code&client_id={GOOGLE_CLIENT_ID}&redirect_uri={GOOGLE_REDIRECT_URI}&scope=openid%20profile%20email&access_type=offline"
     }
