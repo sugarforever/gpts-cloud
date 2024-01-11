@@ -10,8 +10,8 @@ load_dotenv()
 
 app = FastAPI(servers=[
     {
-        "url": "https://sparkai-gateway.vercel.app",
-        "description": "Spark AI Gateway - Staging"
+        "url": "https://gpts-cloud.vercel.app",
+        "description": "GPTs Cloud - Staging"
     },
 ])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
