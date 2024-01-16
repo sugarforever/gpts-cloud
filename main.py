@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request
 from starlette.responses import HTMLResponse, RedirectResponse
 from fastapi.openapi.models import OpenAPI
 from fastapi.security import OAuth2PasswordBearer
@@ -15,6 +15,10 @@ app = FastAPI(servers=[
     },
 ])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+class Profile:
+    def __init__(self, token):
+        self.token = token
 
 
 @app.get("/login/google", include_in_schema=False)
@@ -43,10 +47,11 @@ async def auth_google(code: str):
     return user_info.json()
 
 
-@app.get("/token")
-async def get_token(token: str = Depends(oauth2_scheme)):
+@app.get("/profile")
+async def get_profile(request: Request, token: str = Depends(oauth2_scheme)):
+    print(request.json())
     # return jwt.decode(token, os.environ["GOOGLE_CLIENT_SECRET"], algorithms=["HS256"])
-    return { "token": token }
+    return Profile(token)
 
 
 @app.get("/privacy", response_class=HTMLResponse, include_in_schema=False)
